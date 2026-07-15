@@ -2,16 +2,16 @@
   "manifest_version": 3,
   "name": "File Upload Renamer",
   "version": "1.0",
-  "description": "Renames files before they're attached via file inputs",
-  "permissions": ["storage"],
+  "description": "Asks to rename files before they're attached via file inputs",
+  "permissions": ["storage", "activeTab"],
+  "action": {
+    "default_popup": "popup.html"
+  },
   "browser_specific_settings": {
     "gecko": {
       "id": "file-upload-renamer@yourdomain.example",
       "strict_min_version": "109.0"
     }
-  },
-  "action": {
-    "default_popup": "popup.html"
   },
   "content_scripts": [
     {
