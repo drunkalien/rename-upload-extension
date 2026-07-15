@@ -59,9 +59,42 @@ function addSite(host) {
   flash(`Excluded ${host}`);
 }
 
-chrome.storage.local.get("settings", (data) => {
+const historyListEl = document.getElementById("historyList");
+const historyEmptyEl = document.getElementById("historyEmpty");
+
+let history = [];
+
+function renderHistory() {
+  historyListEl.textContent = "";
+  historyEmptyEl.style.display = history.length ? "none" : "";
+  history.forEach((entry, i) => {
+    const li = document.createElement("li");
+
+    const text = document.createElement("span");
+    text.className = "entry";
+    const arrow = document.createElement("span");
+    arrow.className = "arrow";
+    arrow.textContent = " → ";
+    text.append(entry.original, arrow, entry.renamed);
+
+    const remove = document.createElement("button");
+    remove.textContent = "Remove";
+    remove.title = "Remove this suggestion";
+    remove.addEventListener("click", () => {
+      history = history.filter((_, j) => j !== i);
+      chrome.storage.local.set({ history }, renderHistory);
+    });
+
+    li.append(text, remove);
+    historyListEl.appendChild(li);
+  });
+}
+
+chrome.storage.local.get(["settings", "history"], (data) => {
   if (data.settings) settings = { ...settings, ...data.settings };
+  history = data.history || [];
   render();
+  renderHistory();
 });
 
 enabledEl.addEventListener("change", () => {
@@ -88,5 +121,9 @@ document.getElementById("excludeCurrent").addEventListener("click", () => {
 });
 
 document.getElementById("clearHistory").addEventListener("click", () => {
-  chrome.storage.local.remove("history", () => flash("Rename history cleared"));
+  chrome.storage.local.remove("history", () => {
+    history = [];
+    renderHistory();
+    flash("Rename history cleared");
+  });
 });

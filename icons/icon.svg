@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <!-- background -->
+  <rect width="128" height="128" fill="#2563eb"/>
+  <!-- document with folded corner -->
+  <path d="M38 22h38l18 18v66H38z" fill="#ffffff"/>
+  <path d="M76 22l18 18H76z" fill="#bfdbfe"/>
+  <!-- text lines (the "name" being edited) -->
+  <rect x="48" y="52" width="30" height="7" rx="3.5" fill="#93c5fd"/>
+  <rect x="48" y="68" width="36" height="7" rx="3.5" fill="#dbeafe"/>
+  <rect x="48" y="84" width="24" height="7" rx="3.5" fill="#dbeafe"/>
+  <!-- pencil, 45° over the bottom-right corner -->
+  <g transform="rotate(45 96 96)">
+    <rect x="88" y="62" width="16" height="42" rx="3" fill="#f59e0b"/>
+    <rect x="88" y="62" width="16" height="8" rx="3" fill="#fbbf24"/>
+    <path d="M88 104h16l-8 14z" fill="#fde68a"/>
+    <path d="M92.7 112.2 96 118l3.3-5.8z" fill="#78350f"/>
+  </g>
+</svg>

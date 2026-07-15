@@ -214,6 +214,15 @@
 
       e.stopImmediatePropagation();
 
+      // read the latest history right before showing suggestions, in case
+      // renames happened in other tabs or before this script's initial load
+      await new Promise((resolve) =>
+        chrome.storage.local.get("history", (data) => {
+          if (data.history) history = data.history;
+          resolve();
+        })
+      );
+
       const files = Array.from(input.files);
       const newNames = await showRenameDialog(files);
 

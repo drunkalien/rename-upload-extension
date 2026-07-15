@@ -31,6 +31,12 @@
   }
   li button { padding: 1px 7px; font-size: 11px; }
   .empty { color: #999; font-size: 12px; margin: 8px 0 0; }
+  .hint { color: #999; font-size: 11px; margin: 0 0 6px; }
+  #siteList, #historyList { max-height: 132px; overflow-y: auto; }
+  #historyList li { align-items: flex-start; gap: 8px; color: #555; }
+  #historyList .entry { min-width: 0; word-break: break-all; }
+  #historyList .arrow { color: #2563eb; font-weight: 600; }
+  #historyList button { flex-shrink: 0; }
   #clearHistory { width: 100%; margin-top: 6px; }
   #status { color: #16a34a; font-size: 12px; min-height: 16px; margin-top: 6px; text-align: center; }
 </style>
@@ -53,6 +59,9 @@
   <p class="empty" id="emptyNote">No excluded sites.</p>
 
   <h2>Suggestions</h2>
+  <p class="hint">Past renames — offered as suggestions in the rename dialog.</p>
+  <ul id="historyList"></ul>
+  <p class="empty" id="historyEmpty">No renames recorded yet.</p>
   <button id="clearHistory">Clear rename history</button>
 
   <div id="status"></div>
