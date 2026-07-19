@@ -11,13 +11,14 @@
   });
   chrome.storage.onChanged.addListener((changes, area) => {
     if (area !== "local") return;
-    if (changes.settings) settings = { ...settings, ...changes.settings.newValue };
+    if (changes.settings)
+      settings = { ...settings, ...changes.settings.newValue };
     if (changes.history) history = changes.history.newValue || [];
   });
 
   function isExcluded(hostname) {
     return settings.excludedSites.some(
-      (site) => hostname === site || hostname.endsWith("." + site)
+      (site) => hostname === site || hostname.endsWith("." + site),
     );
   }
 
@@ -49,7 +50,11 @@
 
   function recordRenames(files, newNames) {
     const entries = files
-      .map((f, i) => ({ original: f.name, renamed: newNames[i], ts: Date.now() }))
+      .map((f, i) => ({
+        original: f.name,
+        renamed: newNames[i],
+        ts: Date.now(),
+      }))
       .filter((e) => e.original !== e.renamed);
     if (entries.length === 0) return;
     history = [...entries, ...history].slice(0, HISTORY_LIMIT);
@@ -109,7 +114,10 @@
       panel.className = "panel";
 
       const title = document.createElement("h2");
-      title.textContent = files.length === 1 ? "Rename file before upload?" : "Rename files before upload?";
+      title.textContent =
+        files.length === 1
+          ? "Rename file before upload?"
+          : "Rename files before upload?";
       panel.appendChild(title);
 
       const parts = files.map((f) => splitName(f.name));
@@ -177,11 +185,13 @@
       }
 
       renameBtn.addEventListener("click", () => {
-        finish(nameInputs.map((input, i) => {
-          const base = input.value.trim();
-          // empty name → keep that file's original name
-          return base ? base + parts[i].ext : files[i].name;
-        }));
+        finish(
+          nameInputs.map((input, i) => {
+            const base = input.value.trim();
+            // empty name → keep that file's original name
+            return base ? base + parts[i].ext : files[i].name;
+          }),
+        );
       });
       keepBtn.addEventListener("click", () => finish(null));
       overlay.addEventListener("keydown", (e) => {
@@ -220,7 +230,7 @@
         chrome.storage.local.get("history", (data) => {
           if (data.history) history = data.history;
           resolve();
-        })
+        }),
       );
 
       const files = Array.from(input.files);
@@ -232,7 +242,10 @@
           dt.items.add(
             newNames[i] === file.name
               ? file
-              : new File([file], newNames[i], { type: file.type, lastModified: file.lastModified })
+              : new File([file], newNames[i], {
+                  type: file.type,
+                  lastModified: file.lastModified,
+                }),
           );
         });
         input.files = dt.files;
@@ -247,6 +260,6 @@
         releasing = false;
       }
     },
-    true
+    true,
   );
 })();
